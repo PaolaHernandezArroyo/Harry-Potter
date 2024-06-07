@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <link href="https://fonts.cdnfonts.com/css/iron-forge" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/zoot-allures" rel="stylesheet">
+    <title>HarryPotter</title>
+    <style>
+        body{
+            background-color: aqua;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        main{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 10px;
+        }
+        .card{
+            background-color: blue;
+            border: 2px solid #44221d;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 20px;
+            width: 200px;
+            box-shadow: 0 4px 8px black;
+        }
+        h1{
+            color: #44221d;
+            text-shadow: 2px 2px beige;
+            text-align: center;
+        }
+        .card img{
+            width: 100%;
+            border-radius: 5px;
+        }
+        .card h3{
+            margin: 10px 0 5px 0;
+            color: chartreuse;
+            text-shadow: 1px 1px #44281d;
+        }
+        .card p{
+            margin: 5px 0;
+            color: #555;
+        }
+        .card:hover{
+            transform: scale(1.3);
+        }
+    </style>
+    <div style="margin: 24px;">
+        <nav class="navbar navbar-light" style="background-color: rgb(196, 255, 242);">
+            <div class="container">
+                <a class="navbar-brand" href="pagina.html" style="color: black; font-family: 'Chillok', sans-serif;">Inicio</a>
+                <div class="collapse navbar-collapse" id="navbarNavDropDown">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Unidad 1</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDripdownMenuLink">
+                                <a class="dropdown-item" href="Perfil.html">Perfil</a><br>
+                                <a class="dropdown-item" href="Calculadora.html">Calculadora</a><br>
+                                <a class="dropdown-item" href="Tienda.html">Tienda parte 1</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Unidad 2</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDripdownMenuLink">
+                                <a class="dropdown-item" href="Tiendapedido.html">TiendaPedido</a><br>
+                                <a class="dropdown-item" href="Json.html">Json</a><br>
+                                <a class="dropdown-item" href="Tiendapedido2.html">TiendaPedido2</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Unidad 3</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDripdownMenuLink">
+                                <a class="dropdown-item" href="peliculas.html">Peliculas</a><br>
+                                <a class="dropdown-item" href="Basededatos.html">Basededatos</a>
+                            </div>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+                </nav>
+            </div>
+</head>
+<body>
+    <header>
+        <h1>HarryPotter</h1>
+    </header>
+    <main id="datacontainer">
+    </main>
+    <script>
+        const API_URL = 'https://hp-api.herokuapp.com/api/characters';
+        const datacontainer = document.getElementById('datacontainer');
+
+        // Function to fetch data from the API
+        async function fetchData(url){
+            try{
+                const response = await fetch(url);
+                const data = await response.json();
+                displayData(data);
+            } catch(error){
+                console.error('Error al obtener los datos:', error);
+            }
+        }
+
+        // Function to display data in the DOM
+        function displayData(data){
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                const img = document.createElement('img');
+                img.src = item.image;
+                img.alt = item.name; // Optional: for accessibility
+
+                const title = document.createElement('h3');
+                title.textContent = item.name;
+
+                const id = document.createElement('p');
+                id.textContent = `ID: ${item.id}`;
+
+                const status = document.createElement('p');
+                status.textContent = `Estado: ${item.status}`;
+
+                const species = document.createElement('p');
+                species.textContent = `Especie: ${item.species}`;
+
+                const gender = document.createElement('p');
+                gender.textContent = `Género: ${item.gender}`;
+
+                card.appendChild(img);
+                card.appendChild(title);
+                card.appendChild(id);
+                card.appendChild(status);
+                card.appendChild(species);
+                card.appendChild(gender);
+
+                datacontainer.appendChild(card);
+            });
+        }
+
+        fetchData(API_URL);
+    </script>
+</body>
+</html>
